@@ -20,6 +20,9 @@ const userSchema = new Schema({
     userRole : {
         type : String,
         default : "customer"
+    },
+    otp : {
+        type : Number
     }
 })
 

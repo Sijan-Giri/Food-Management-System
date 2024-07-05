@@ -2,6 +2,7 @@ const User = require("../../model/userModel");
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../../services/sendEmail");
 
 exports.registerUser = async (req,res) => {
     const {email,password,phoneNum,username} = req.body;
@@ -61,4 +62,30 @@ exports.loginUser = async (req,res) => {
         userPassword : password,
     })
     
+}
+
+exports.forgetPassword = async (req,res) => {
+    const {email} = req.body;
+    if(!email) {
+        return res.status(400).json({
+            message : "Please provide an email"
+        })
+    }
+    const emailExits = await User.find({userEmail : email});
+    if(emailExits.length == 0) {
+        return res.status(400).json({
+            message : "You are not registered with this email"
+        })
+    }
+    const otp = Math.floor(Math.random() * 9000);
+    emailExits[0].otp = otp;
+    await emailExits[0].save();
+    await sendEmail({
+        email : email,
+        subject : "Your OTP for forgot password",
+        message : `${otp}`
+    })
+    res.status(200).json({
+        message : "OTP sent successfully"
+    })
 }
