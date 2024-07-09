@@ -1,5 +1,6 @@
+
 const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
+const {promisify} = require("util");
 const User = require("../model/userModel");
 
 const isAuthenticated = async (req,res,next) => {
@@ -9,27 +10,21 @@ const isAuthenticated = async (req,res,next) => {
             message : "Please login"
         })
     }
-   try {
-    const decoded = await promisify(jwt.verify)(token,process.env.SECRET_KEY);
-   if(!decoded) {
-    res.status(200).json({
-        message : "Don't try to do this"
-    })
-   }
-   const doesUserExists = await User.findById(decoded.id);
-   if(doesUserExists.length == 0) {
-    res.status(400).json({
-        message : "User Doesnot exists"
-    })
-   }
-   req.user = doesUserExists
-   
+    try {
+        const decoded = await promisify(jwt.verify)(token,process.env.SECRET_KEY);
+    const doesUserExists = await User.findById(decoded.id);
+    if(!doesUserExists) {
+        return res.status(400).json({
+            message : "User doesn't exists with this id"
+        })
+    }
+    req.user = doesUserExists
     next();
-   } catch (error) {
-    res.status(400).json({
-        message : error.message
-    })
-   }
+    } catch (error) {
+        res.status(400).json({
+            message : error.message
+        })
+    }
 }
 
-module.exports = isAuthenticated;
+module.exports = isAuthenticated
