@@ -16,14 +16,14 @@ const isAuthenticated = async (req,res,next) => {
         message : "Don't try to do this"
     })
    }
-   const doesUserExists = await User.find({_id : decoded.id});
+   const doesUserExists = await User.findById(decoded.id);
    if(doesUserExists.length == 0) {
     res.status(400).json({
         message : "User Doesnot exists"
     })
    }
    req.user = doesUserExists
-   console.log(doesUserExists);
+   
     next();
    } catch (error) {
     res.status(400).json({
