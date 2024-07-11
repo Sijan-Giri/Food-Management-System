@@ -21,7 +21,7 @@ exports.createProduct = async(req,res) => {
         productPrice,
         productStatus,
         productQuantity,
-        productImage : filePath
+        productImage : "http://localhost:2000/" + filePath
     })
     res.status(200).json({
         message : "Product created sucessfully"

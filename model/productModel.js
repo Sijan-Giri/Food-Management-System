@@ -20,6 +20,9 @@ const productSchema = new Schema({
     productQuantity : {
         type : Number,
         required : [true,"Product quantity must be given"]
+    },
+    productImage : {
+        type : String
     }
 })
 
