@@ -1,7 +1,6 @@
 const Product = require("../../../model/productModel");
 
 exports.createProduct = async(req,res) => {
-   try {
     const file = req.file;
     let filePath;
     if(!file) {
@@ -27,11 +26,6 @@ exports.createProduct = async(req,res) => {
     res.status(200).json({
         message : "Product created sucessfully"
     })
-   } catch (error) {
-    res.status(500).json({
-        message : "Something went wrong"
-    })
-   }
 }
 
 exports.getProducts = async (req,res) => {
