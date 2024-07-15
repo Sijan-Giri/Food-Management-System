@@ -141,4 +141,3 @@ exports.resetPassword = async (req,res) => {
         message : "Password reset successfully"
     })
 }
-

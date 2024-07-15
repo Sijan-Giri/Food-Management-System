@@ -1,4 +1,4 @@
-const { createProduct, getProducts, getProduct } = require("../controller/admin/product/productController");
+const { createProduct, getProducts, getProduct, deleteProduct } = require("../controller/admin/product/productController");
 const isAuthenticated = require("../middleware/isAuthenticated");
 const toRestrict = require("../middleware/toRestrict");
 
@@ -11,5 +11,7 @@ router.route("/createProduct").post(isAuthenticated ,toRestrict("admin"),upload.
 .get(catchAsync(getProducts))
 
 router.route("/getProduct/:id").get(catchAsync(getProduct));
+router.route("/deleteProduct/:id").delete( isAuthenticated,toRestrict("admin"),catchAsync(deleteProduct));
+
 
 module.exports = router;

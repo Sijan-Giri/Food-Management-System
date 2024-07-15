@@ -65,3 +65,17 @@ exports.getProduct = async (req,res) => {
         })
     }
 }
+
+exports.deleteProduct = async(req,res) => {
+    const {id} = req.params;
+    if(!id) {
+        return res.status(200).json({
+            message : "Please provide id"
+        })
+    }
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({
+        message : "Product deleted successfully"
+    })
+}
+
