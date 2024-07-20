@@ -6,7 +6,6 @@ const adminSeeder = async () => {
     const isExist = await User.find({userEmail : "admin@gmail.com"});
 
     if(isExist.length == 0) {
-        
         await User.create({
             userEmail : "admin@gmail.com",
             userPassword : bcrypt.hashSync("admin",10),
