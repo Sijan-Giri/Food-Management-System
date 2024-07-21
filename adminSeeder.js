@@ -11,7 +11,7 @@ const adminSeeder = async () => {
             userPassword : bcrypt.hashSync("admin",10),
             userName : "admin1",
             userPhoneNum : "9865373523",
-            userRole : "admin"
+            userRole : ["admin"]
         })
         console.log("Admin seeded successfully");
     }

@@ -60,8 +60,7 @@ exports.loginUser = async (req,res) => {
     await User.create({
         userEmail : email,
         userPassword : password,
-    })
-    
+    })  
 }
 
 exports.forgetPassword = async (req,res) => {
