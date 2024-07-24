@@ -1,39 +1,67 @@
-const User = require("../../model/userModel")
+const Product = require("../../model/productModel");
+const Review = require("../../model/reviewModel");
 
-exports.getUsers = async (req,res) => {
+exports.createReview = async (req,res) => {
     const userId = req.user.id;
-    const users = await User.find({_id : {$ne : userId}}).select(["-otp","-role","-password","-__v"]);
-    if(users.length == 0) {
-        res.status(400).json({
-            message : "No users found",
-            data : []
+    const {rating , message} = req.body;
+    const productId = req.params.id;
+    if(!rating || !message || !productId) {
+        return res.status(400).json({
+            message : "Please provide rating , message & productId"
+        })
+    };
+    const productExists = await Product.findById(productId);
+    if(!productExists) {
+        return res.status(400).json({
+            message : "Product with this id doesnot exists"
         })
     }
-    else {
-        res.status(200).json({
-            message : "Users fetched successfully",
-            data : users
-        })
-    }
+    await Review.create({
+        userId,
+        rating,
+        message,
+        productId
+    })
+    res.status(200).json({
+        message : "Product added successfully"
+    })
 }
 
-exports.deleteUser = async (req,res) => {
-    const userId = req.params.id;
-    if(!userId) {
+exports.getReview = async (req,res) => {
+    const productId = req.params.id;
+    if(!productId) {
         return res.status(400).json({
-            message : "Please provide userId"
+            message : "Please provide product id"
         })
     }
-    const user = await User.findById(userId);
-    if(!user) {
-        res.status(400).json({
-            message : "User not found with that userId"
+    const productExists = await Product.findById(productId);
+    if(!productExists) {
+        return res.status(400).json({
+            message : "Product with this id doesnot exists"
         })
     }
-    else {
-        await User.findByIdAndDelete(userId)
-        res.status(200).json({
-            message : "User deleted successfully"
+    const reviews = await Review.find({productId})
+    res.status(400).json({
+        message : "Reviews fetched successfully",
+        data : reviews
+    })
+}
+
+exports.deleteReview = async (req,res) => {
+    const productId = req.params.id;
+    if(!productId) {
+        return res.status(400).json({
+            message : "Please provide product id"
         })
     }
+    const productExists = await Product.findById(productId);
+    if(!productExists) {
+        return res.status(200).json({
+            message : "Product with this id doesnot exists"
+        })
+    }
+    await Review.findByIdAndDelete(productId);
+    res.status(200).json({
+        message : "Product Review deleted successfully"
+    })
 }

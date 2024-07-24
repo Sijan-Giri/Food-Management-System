@@ -1,4 +1,4 @@
-const { getUsers, deleteUser } = require("../controller/user/userController");
+const { getUsers, deleteUser } = require("../controller/admin/user/userController");
 const isAuthenticated = require("../middleware/isAuthenticated");
 const toRestrict = require("../middleware/toRestrict");
 
