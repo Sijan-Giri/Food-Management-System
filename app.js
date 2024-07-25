@@ -3,7 +3,8 @@ const { connectDatabase } = require('./database/database');
 const app = express();
 const authRoute = require("./routes/authRouter");
 const productRoute = require("./routes/productRouter");
-const adminUserRoute = require("./routes/adminUserRoute")
+const adminUserRoute = require("./routes/adminUserRoute");
+const userReviewRoute = require("./routes/userReviewRoute")
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -13,7 +14,8 @@ connectDatabase();
 
 app.use('',authRoute);
 app.use("",productRoute);
-app.use("",adminUserRoute)
+app.use("",adminUserRoute);
+app.use("",userReviewRoute);
 
 const PORT = process.env.PORT || 3000
 
