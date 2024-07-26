@@ -65,3 +65,20 @@ exports.deleteReview = async (req,res) => {
         message : "Product Review deleted successfully"
     })
 }
+
+exports.addProductReview = async (req,res) => {
+    const productId = req.params.id;
+    const {rating , message} = req.body;
+    const userId = req.user.id;
+    const reviews = {
+        userId,
+        rating,
+        message
+    }
+    const product = await Product.findById(productId);
+    product.reviews.push(reviews);
+    await product.save();
+    res.status(200).json({
+        message : "Review added successfully"
+    })
+}
