@@ -1,5 +1,6 @@
 const Product = require("../../../model/productModel");
 const fs = require("fs");
+
 exports.createProduct = async(req,res) => {
     const file = req.file;
     let filePath;
@@ -26,50 +27,6 @@ exports.createProduct = async(req,res) => {
     res.status(200).json({
         message : "Product created sucessfully"
     })
-}
-
-exports.getProducts = async (req,res) => {
-    const products = await Product.find().populate({
-        path : "reviews",
-        populate : {
-            path : "userId",
-            select : "userEmail userName"
-        }
-    })
-    if(products.length == 0) {
-        res.status(400).json({
-            message : "Products not found",
-            products : []
-        })
-    }
-    else {
-        res.status(200).json({
-            message : "Products fetched successfully",
-            products
-        })
-    }
-}
-
-exports.getProduct = async (req,res) => {
-    const {id} = req.params
-    if(!id) {
-        return res.status(400).json({
-            message : "Please provide Id"
-        })
-    }
-    const product = await Product.findById(id);
-    if(product.length == 0) {
-        res.status(400).json({
-            message : "Product not found",
-            product : []
-        })
-    }
-    else {
-        res.status(200).json({
-            message : "Product fetched successfully",
-            product
-        })
-    }
 }
 
 exports.deleteProduct = async(req,res) => {
