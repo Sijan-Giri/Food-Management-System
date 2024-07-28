@@ -55,8 +55,6 @@ exports.getReview = async (req,res) => {
             data : reviews
         })
     }
-    
-
     } catch (error) {
         next(error)
     }
