@@ -13,7 +13,7 @@ exports.getMyProfile = async(req,res) => {
 exports.updateMyProfile = async(req,res) => {
     const userId = req.user.id;
     const {userEmail , userName , userPhoneNum} = req.body;
-    if(!userEmail || !userName || userPhoneNum) {
+    if(!userEmail || !userName || !userPhoneNum) {
         return res.status(400).json({
             message : "Please provide userEmail , userName , userPhoneNum"
         })
@@ -21,15 +21,11 @@ exports.updateMyProfile = async(req,res) => {
     const myUpdatedProfile = await User.findByIdAndUpdate(userId,{
         userEmail,
         userName,
-        userPassword,
         userPhoneNum
     }); 
     res.status(200).json({
         message : "Profile updated successfully",
         data : myUpdatedProfile
-    },{
-        runValidators : true,
-        new : true
     })
 }
 

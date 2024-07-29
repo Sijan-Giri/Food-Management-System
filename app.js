@@ -6,6 +6,7 @@ const productRoute = require("./routes/productRouter");
 const adminUserRoute = require("./routes/adminUserRoute");
 const userReviewRoute = require("./routes/userReviewRoute");
 const profileRoute = require("./routes/profileRoute");
+const cartRoute = require("./routes/cartRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -18,6 +19,7 @@ app.use("",productRoute);
 app.use("",adminUserRoute);
 app.use("",userReviewRoute);
 app.use("",profileRoute);
+app.use("",cartRoute);
 
 const PORT = process.env.PORT || 3000
 
