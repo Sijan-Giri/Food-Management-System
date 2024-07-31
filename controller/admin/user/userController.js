@@ -1,3 +1,4 @@
+const Order = require("../../../model/orderSchema");
 const User = require("../../../model/userModel")
 
 exports.getUsers = async (req,res) => {
