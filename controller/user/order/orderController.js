@@ -75,7 +75,7 @@ exports.updateMyOrder = async(req,res) => {
     })
 }
 
-exports.deleteOrder = async(req,res) => {
+exports.deleteMyOrder = async(req,res) => {
     const {id} = req.params;
     const userId = req.user.id;
     if(!id) {
@@ -100,7 +100,7 @@ exports.deleteOrder = async(req,res) => {
     })
 }
 
-exports.cancelOrder = async(req,res) => {
+exports.cancelMyOrder = async(req,res) => {
     const {id} = req.params;
     const userId = req.user.id;
     if(!id) {
