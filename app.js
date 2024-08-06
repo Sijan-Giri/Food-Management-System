@@ -8,6 +8,8 @@ const userReviewRoute = require("./routes/userReviewRoute");
 const profileRoute = require("./routes/profileRoute");
 const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
+const adminOrderRoute = require("./routes/adminOrderRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -22,6 +24,8 @@ app.use("",userReviewRoute);
 app.use("",profileRoute);
 app.use("",cartRoute);
 app.use("",orderRoute);
+app.use("",adminOrderRoute);
+app.use("",paymentRoute);
 
 const PORT = process.env.PORT || 3000
 
