@@ -37,6 +37,10 @@ exports.verifyPidx = async(req,res) => {
         }
     })
     if(response.data.status === "Completed") {
+        const order = await Order.find({'paymentDetails.pidx' : pidx});
+        order[0].paymentDetails.method = "khalti";
+        order[0].paymentDetails.status = "paid";
+        await order[0].save();
         res.redirect("http://localhost:2000")
     }else {
         res.redirect("http://localhost:2000/errorPage")

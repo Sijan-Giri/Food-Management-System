@@ -5,6 +5,6 @@ const catchAsync = require('../services/catchAsync');
 const router = require('express').Router();
 
 router.route("/payment").post(isAuthenticated,catchAsync(initiateKhaltiPayment))
-router.route("/success").get(isAuthenticated,catchAsync(verifyPidx));
+router.route("/success").get(catchAsync(verifyPidx));
 
 module.exports = router;
