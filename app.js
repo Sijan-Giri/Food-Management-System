@@ -10,6 +10,7 @@ const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
 const adminOrderRoute = require("./routes/adminOrderRoute");
 const paymentRoute = require("./routes/paymentRoute");
+const {Server} = require("socket.io");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -29,6 +30,20 @@ app.use("",paymentRoute);
 
 const PORT = process.env.PORT || 3000
 
-app.listen(PORT,() => {
+const server = app.listen(PORT,() => {
     console.log(`Server started at ${PORT}...`);
 })
+
+const io = new Server(server);
+
+io.on("connection",(socket) => {
+    socket.on('hello',(data) => {
+        io.to(socket.id).emit('response',({message : "User registered successfully"}))
+    })
+})
+
+ function getSocketIo() {
+    return io
+ }
+
+ module.exports.getSocketIo = getSocketIo

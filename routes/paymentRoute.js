@@ -8,3 +8,4 @@ router.route("/payment").post(isAuthenticated,catchAsync(initiateKhaltiPayment))
 router.route("/success").get(catchAsync(verifyPidx));
 
 module.exports = router;
+
