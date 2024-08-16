@@ -6,13 +6,13 @@ exports.getProducts = async (req,res) => {
     if(products.length == 0) {
         res.status(400).json({
             message : "Products not found",
-            products : []
+            data : []
         })
     }
     else {
         res.status(200).json({
             message : "Products fetched successfully",
-            products
+            data : products
         })
     }
 }

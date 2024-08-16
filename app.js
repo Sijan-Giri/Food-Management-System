@@ -11,6 +11,11 @@ const orderRoute = require("./routes/orderRoute");
 const adminOrderRoute = require("./routes/adminOrderRoute");
 const paymentRoute = require("./routes/paymentRoute");
 const {Server} = require("socket.io");
+const cors = require("cors")
+
+app.use(cors({
+    origin : "*"
+}))
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -43,7 +48,7 @@ io.on("connection",(socket) => {
 })
 
  function getSocketIo() {
-    return io
+    return io   
  }
 
  module.exports.getSocketIo = getSocketIo
