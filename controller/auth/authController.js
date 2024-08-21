@@ -49,6 +49,7 @@ exports.loginUser = async (req,res) => {
     if(isMatched) {
         res.status(200).json({
             message : "You are logged in successfully",
+            data : userFound,
             token : token
         })
     }
@@ -140,3 +141,4 @@ exports.resetPassword = async (req,res) => {
         message : "Password reset successfully"
     })
 }
+
