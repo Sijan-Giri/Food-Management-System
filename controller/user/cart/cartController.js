@@ -62,3 +62,31 @@ exports.deleteFromCart = async(req,res) => {
         message : "Item deleted successfully from cart"
     })
 }
+
+exports.updateCartItem = async(req,res) => {
+    const userId = req.user.id;
+    const {productId} = req.params;
+    const {quantity} = req.body;
+
+    if(!productId || !quantity) {
+        return res.status(400).json({
+            message : "Please provide productId & quantity"
+        })
+    }
+
+    const user = await User.findById(userId);
+    console.log(user)
+    const cartItem = user.cart.find((item) => item.product.equals(productId));
+    if(!cartItem) {
+        return res.status(400).json({
+            message : "No item found with this id"
+        })
+    }
+    cartItem.quantity = quantity;
+    await user.save()
+
+    res.status(200).json({
+        message : "Item updated successfully",
+        data : user.cart
+    })
+}
