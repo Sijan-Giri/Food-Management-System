@@ -2,10 +2,10 @@ const Order = require("../../../model/orderSchema");
 
 exports.createOrder = async(req,res) => {
     const userId = req.user.id;
-    const {item , totalAmount , shippingAddress , paymentDetails} = req.body;
-    if(!item || !item.length || !totalAmount || !shippingAddress || !paymentDetails) {
+    const {item , totalAmount , shippingAddress , paymentDetails , phoneNumber} = req.body;
+    if(!item || !item.length || !totalAmount || !shippingAddress || !paymentDetails || !phoneNumber) {
         return res.status(400).json({
-            message : "Please provide item , totalAmount , shippingAddress , paymentDetails"
+            message : "Please provide item , totalAmount , phoneNumber , shippingAddress , paymentDetails"
         })
     }
     const orders = await Order.create({
@@ -13,7 +13,8 @@ exports.createOrder = async(req,res) => {
         item,
         paymentDetails,
         totalAmount,
-        shippingAddress
+        shippingAddress,
+        phoneNumber
     })
     res.status(200).json({
         message : "Orders created successfully",
