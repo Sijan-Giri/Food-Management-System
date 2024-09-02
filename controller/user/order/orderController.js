@@ -18,7 +18,8 @@ exports.createOrder = async(req,res) => {
     })
     res.status(200).json({
         message : "Orders created successfully",
-        data : orders
+        data : orders,
+        orderId : orders._id
     })
 }
 
