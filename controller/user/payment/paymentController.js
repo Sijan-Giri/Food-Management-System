@@ -8,8 +8,19 @@ exports.initiateKhaltiPayment = async (req,res) => {
             message : "Please provide orderId & amount"
         })
     }
+    const order = await Order.findById(orderId);
+    if(!order) {
+        res.status(400).json({
+            message : "Order with that id not found"
+        })
+    }
+    if(order.totalAmount !== amount) {
+        res.status(400).json({
+            message : "Amount must be equal to the totalAmount"
+        })
+    }
     const data = {
-        return_url : "http://localhost:2000/success",
+        return_url : "http://localhost:5173/success",
         purchase_order_id : orderId,
         amount : amount,
         website_url : "http://localhost:2000/",
@@ -22,17 +33,16 @@ exports.initiateKhaltiPayment = async (req,res) => {
             'Authorization' : 'key 31907215237e454a968ce3a8e48665ad'
         }
     })
-    console.log(response.data)
-    const order = await Order.findById(orderId);
     order.paymentDetails.pidx = response.data.pidx;
     await order.save();
-    res.redirect(response.data.payment_url)
+    res.status(200).json({
+        message : "Payment Successful",
+        paymentUrl : response.data.payment_url
+    })
 }
 
-exports.verifyPidx = async(req,res) => {
-    const app = require ("./../../../app");
-    const io = app.getSocketIo() 
-    const pidx = req.query.pidx;
+exports.verifyPidx = async(req,res) => { 
+    const pidx = req.body.pidx;
     const response = await axios.post("https://a.khalti.com/api/v2/epayment/lookup/",{pidx},{
         headers : {
             "Authorization" : 'key 31907215237e454a968ce3a8e48665ad'
@@ -40,12 +50,11 @@ exports.verifyPidx = async(req,res) => {
     })
     if(response.data.status === "Completed") {
         const order = await Order.find({'paymentDetails.pidx' : pidx});
-        order[0].paymentDetails.method = "khalti";
+        order[0].paymentDetails.method = "Khalti";
         order[0].paymentDetails.status = "paid";
         await order[0].save();
-        res.redirect("http://localhost:2000")
-    }else {
-        res.redirect("http://localhost:2000/errorPage")
-    }
+        res.status(200).json({
+            message : "Payment Success"
+        })
 }
-
+}
