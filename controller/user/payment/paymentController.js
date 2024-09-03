@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 const Order = require("../../../model/orderSchema");
+const User = require("../../../model/userModel");
 
 exports.initiateKhaltiPayment = async (req,res) => {
     const {orderId , amount} = req.body;
@@ -42,6 +43,7 @@ exports.initiateKhaltiPayment = async (req,res) => {
 }
 
 exports.verifyPidx = async(req,res) => { 
+    const userId = req.user.id;
     const pidx = req.body.pidx;
     const response = await axios.post("https://a.khalti.com/api/v2/epayment/lookup/",{pidx},{
         headers : {
@@ -53,6 +55,11 @@ exports.verifyPidx = async(req,res) => {
         order[0].paymentDetails.method = "Khalti";
         order[0].paymentDetails.status = "paid";
         await order[0].save();
+
+        const user = await User.findById(userId);
+        user.cart = [];
+        await user.save();
+
         res.status(200).json({
             message : "Payment Success"
         })
