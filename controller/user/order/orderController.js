@@ -43,7 +43,7 @@ exports.getMyOrders = async (req,res) => {
     }
     res.status(200).json({
         message : "Orders fetched successfully",
-        orders
+        data : orders
     })
 }
 
@@ -97,9 +97,14 @@ exports.deleteMyOrder = async(req,res) => {
             message : "Order with this id doesn't exists"
         })
     }
-    if(orderExists.user !== userId) {
+    if(orderExists.user != userId) {
         return res.status(400).json({
             message : "You don't have permission to delete this order"
+        })
+    }
+    if(orderExists.orderStatus !== "pending") {
+        return res.status(400).json({
+            message : "You can't cancel this order cuz it is not in pending"
         })
     }
     await Order.findByIdAndDelete(id);
@@ -122,7 +127,7 @@ exports.cancelMyOrder = async(req,res) => {
             message : "Order not found with this id"
         })
     }
-    if(order.user !== userId) {
+    if(order.user != userId) {
         return res.status(400).json({
             message : "You don't have permission to cancel this order"
         })
