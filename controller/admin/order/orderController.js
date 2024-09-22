@@ -44,7 +44,7 @@ exports.updateOrderStatus = async(req,res) => {
             message : "Please provide id"
         })
     }
-    if(!orderStatus || !["pending","delivered","onTheWay","preparation","cancelled"].includes(orderStatus.toLowerCase())) {
+    if(!orderStatus || !["pending","delivered","ontheway","preparation","cancelled"].includes(orderStatus.toLowerCase())) {
         return res.status(400).json({
             message : "Order status is invalid or should be provided"
         })
