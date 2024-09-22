@@ -66,6 +66,36 @@ exports.updateOrderStatus = async(req,res) => {
     })
 }
 
+exports.updatePaymentStatus = async(req,res) => {
+    const {id} = req.params;
+    const {paymentStatus} = req.body;
+    if(!id) {
+        return res.status(400).json({
+            message : "Please provide id"
+        })
+    }
+    if(!paymentStatus || !["pending","paid","unpaid"].includes(paymentStatus.toLowerCase())) {
+        return res.status(400).json({
+            message : "Payment status is invalid or should be provided"
+        })
+    }
+    const orderExists = await Order.findById(id);
+    if(!orderExists) {
+        return res.status(400).json({
+            message : "Order not found with this id"
+        })
+    }
+    const updateOrder = await Order.findByIdAndUpdate(id,{
+        'paymentDetails.status' : paymentStatus
+    },{
+        new : true
+    })
+    res.status(200).json({
+        message : "Payment status updated successfully",
+        data : updateOrder
+    })
+}
+
 exports.deleteOrder = async(req,res) => {
     const {id} = req.params;
     if(!id) {
