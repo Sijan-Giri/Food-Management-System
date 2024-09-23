@@ -42,6 +42,7 @@ exports.deleteProduct = async(req,res) => {
             message : "No data found with this id"
         })
     }
+    if(oldData.productImage) {
     const fullFilePath = oldData.productImage;
     const fileToCut = process.env.BACKEND_URL.length
     const filepathAfterCut = fullFilePath.slice(fileToCut)
@@ -54,6 +55,7 @@ exports.deleteProduct = async(req,res) => {
                 console.log("File Deleted successfully")
             }
         })
+    }
     await Product.findByIdAndDelete(id);
     res.status(200).json({
         message : "Product deleted successfully"
