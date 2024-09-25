@@ -38,7 +38,11 @@ exports.addToCart = async(req,res) => {
 
 exports.getCart = async (req,res) => {
     const userId = req.user.id;
-    const userData = await User.findById(userId).populate("cart.product")
+    const userData = await User.findById(userId).populate({
+        path : "cart.product",
+        select : "productName , productPrice , productImage"
+    })
+    console.log(userData)
     const cartData  = userData.cart
     res.status(200).json({
         message : "Cart fetched successfully",

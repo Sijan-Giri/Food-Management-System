@@ -58,8 +58,12 @@ exports.updateOrderStatus = async(req,res) => {
     const updateOrder = await Order.findByIdAndUpdate(id,{
         orderStatus
     },{
-        new : true
-    })
+        new : true  
+    }).populate({
+        path : "item.product",
+        model : "Order"
+    }).populate('user')
+    
     res.status(200).json({
         message : "Order status updated successfully",
         data : updateOrder

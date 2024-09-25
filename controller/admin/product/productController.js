@@ -110,3 +110,33 @@ exports.editProduct = async(req,res) => {
         datas
     })
 }
+
+exports.updateProductStatus = async(req,res) => {
+    const {id} = req.params;
+    const {productStatus} = req.body;
+    if(!id) {
+        return res.status(400).json({
+            message : "Please provide id"
+        })
+    }
+    if(!productStatus || !["available","unavailable"].includes(productStatus.toLowerCase())) {
+        return res.status(400).json({
+            message : "Product status is invalid or should be provided"
+        })
+    }
+    const productExists = await Product.findById(id);
+    if(!productExists) {
+        return res.status(400).json({
+            message : "Product not found with this id"
+        })
+    }
+    const updateProduct = await Product.findByIdAndUpdate(id,{
+        productStatus
+    },{
+        new : true
+    })
+    res.status(200).json({
+        message : "Product status updated successfully",
+        data : updateProduct
+    })
+}
