@@ -11,6 +11,8 @@ exports.addToCart = async(req,res) => {
             message : "Please provide product id"
         })
     }
+
+    console.log(userId,{productId : id})
     const productExists = await Product.findById(id);
     if(!productExists) {
         return res.status(400).json({

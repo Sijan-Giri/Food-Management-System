@@ -9,9 +9,12 @@ exports.createOrder = async(req,res) => {
             message : "Please provide item , totalAmount , phoneNumber , shippingAddress , paymentDetails"
         })
     }
+
+    const validItems = item.filter(i => i.product);
+    
     const orders = await Order.create({
         user : userId,
-        item,
+        item : validItems,
         paymentDetails,
         totalAmount,
         shippingAddress,
