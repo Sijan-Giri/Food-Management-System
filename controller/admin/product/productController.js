@@ -140,3 +140,30 @@ exports.updateProductStatus = async(req,res) => {
         data : updateProduct
     })
 }
+
+exports.updateProductStockAndPrice = async(req,res) => {
+    const {id} = req.params;
+    const {productPrice , productStockQty} = req.body;
+
+    if(!productPrice && !productStockQty) {
+        return res.status(400).json({
+            message : "Please provide productPrice or productStockQty"
+        })
+    }
+
+    const product = await Product.findById(id);
+    if(!product) {
+        return res.status(400).json({
+            message : "No product found with this id"
+        })
+    }
+    const updateProduct = await Product.findByIdAndUpdate(id,{
+        productStockQty : productStockQty ? productStockQty : product.productStockQty,
+        productPrice : productPrice ? productPrice : product.productPrice
+    },{new : true});
+
+    res.status(200).json({
+        message : "Product Price & StockQty updated successfully",
+        data : updateProduct
+    })
+} 

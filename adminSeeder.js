@@ -3,9 +3,10 @@ const bcrypt = require("bcryptjs");
 
 
 const adminSeeder = async () => {
-    const isExist = await User.find({userEmail : "admin@gmail.com"});
+    try {
+        const isExist = await User.findOne({userEmail : "admin@gmail.com"});
 
-    if(isExist.length == 0) {
+    if(!isExist) {
         await User.create({
             userEmail : "admin@gmail.com",
             userPassword : bcrypt.hashSync("admin",10),
@@ -17,6 +18,14 @@ const adminSeeder = async () => {
     }
     else {
         console.log("Admin is already seeded");
+    }
+    } catch (error) {
+        if(error.code == 11000) {
+            console.log("Admin is already seeded no need to seed again");
+        }
+        else {
+            console.log("Error occured while seeding admin :",error)
+        }
     }
 }
 
