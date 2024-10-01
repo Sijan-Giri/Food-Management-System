@@ -10,13 +10,13 @@ exports.createProduct = async(req,res) => {
     else {
         filePath = req.file.filename
     }
-    const {productName,productDescription,productPrice,productStatus,productQuantity} = req.body;
+    const {productName,productDescription,productStatus,productPrice,productQuantity} = req.body;
     if(!productName || !productDescription || !productPrice || !productQuantity) {
         return res.status(400).json({
             message : "Please provide productName , productDescription , productPrice & productQuantity"
         })
     };
-    await Product.create({
+    const productCreated = await Product.create({
         productName,
         productDescription,
         productPrice,
@@ -25,7 +25,8 @@ exports.createProduct = async(req,res) => {
         productImage : "http://localhost:2000/" + filePath
     })
     res.status(200).json({
-        message : "Product created sucessfully"
+        message : "Product created sucessfully",
+        data : productCreated
     })
 }
 

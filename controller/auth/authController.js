@@ -57,11 +57,7 @@ exports.loginUser = async (req,res) => {
         res.status(400).json({
             message : "Invalid password"
         })
-    }
-    await User.create({
-        userEmail : email,
-        userPassword : password,
-    })  
+    }  
 }
 
 exports.forgetPassword = async (req,res) => {
