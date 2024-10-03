@@ -10,6 +10,8 @@ const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
 const adminOrderRoute = require("./routes/adminOrderRoute");
 const paymentRoute = require("./routes/paymentRoute");
+const dataServiceRoute = require("./routes/dataServiceRoute")
+
 const {Server} = require("socket.io");
 const cors = require("cors")
 
@@ -32,6 +34,7 @@ app.use("",cartRoute);
 app.use("",orderRoute);
 app.use("",adminOrderRoute);
 app.use("",paymentRoute);
+app.use("",dataServiceRoute);
 
 const PORT = process.env.PORT || 3000
 
