@@ -82,7 +82,8 @@ exports.forgetPassword = async (req,res) => {
         message : `${otp}`
     })
     res.status(200).json({
-        message : "OTP sent successfully"
+        message : "OTP sent successfully",
+        data : email
     })
 }
 
@@ -99,7 +100,8 @@ exports.verifyOtp = async(req,res) => {
             message : "You are not registered with this email"
         })
     }
-    if(userExists[0].otp !== otp) {
+    if(userExists[0].otp !== Number(otp.otp)) {
+        console.log("Database otp ",userExists[0].otp,otp)
         res.status(400).json({
             message : "Incorrect OTP"
         })
