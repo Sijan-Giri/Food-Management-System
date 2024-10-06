@@ -101,7 +101,6 @@ exports.verifyOtp = async(req,res) => {
         })
     }
     if(userExists[0].otp !== Number(otp.otp)) {
-        console.log("Database otp ",userExists[0].otp,otp)
         res.status(400).json({
             message : "Incorrect OTP"
         })

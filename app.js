@@ -42,12 +42,30 @@ const server = app.listen(PORT,() => {
     console.log(`Server started at ${PORT}...`);
 })
 
-const io = new Server(server);
+const io = new Server(server,{
+    cors : "http://localhost:3000"
+});
+const jwt = require("jsonwebtoken");
+const {promisify} = require("util");
+const User = require('./model/userModel');
 
-io.on("connection",(socket) => {
-    socket.on('hello',(data) => {
-        io.to(socket.id).emit('response',({message : "User registered successfully"}))
-    })
+let onlineUsers = [];
+
+const addToOnlineUsers = (socketId , userId , role) => {
+    onlineUsers = onlineUsers.filter((onlineUser) => onlineUser.userId !== onlineUser)
+    onlineUsers.push({socketId , userId , role})
+    console.log(onlineUsers)
+}
+
+io.on("connection",async (socket) => {
+    const token = socket.handshake.auth.token
+    if(token) {
+        const decoded = await promisify(jwt.verify)(token,process.env.SECRET_KEY);
+        const doesUserExists = await User.findById(decoded.id);
+        if(doesUserExists) {
+            addToOnlineUsers(socket.id , doesUserExists.id , doesUserExists.userRole)
+        }
+    }
 })
 
  function getSocketIo() {
