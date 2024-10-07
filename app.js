@@ -52,7 +52,7 @@ const User = require('./model/userModel');
 let onlineUsers = [];
 
 const addToOnlineUsers = (socketId , userId , role) => {
-    onlineUsers = onlineUsers.filter((onlineUser) => onlineUser.userId !== onlineUser)
+    onlineUsers = onlineUsers.filter((onlineUser) => onlineUser.userId !== userId)
     onlineUsers.push({socketId , userId , role})
     console.log(onlineUsers)
 }
@@ -66,10 +66,10 @@ io.on("connection",async (socket) => {
             addToOnlineUsers(socket.id , doesUserExists.id , doesUserExists.userRole)
         }
     }
+
+    socket.on("updateOrderStatus",({status , userId , orderId}) => {
+       const findUser = onlineUsers.find((user) => user.userId == userId);
+       io.to(findUser.socketId).emit("statusUpdated",{status,orderId})
+    })
 })
 
- function getSocketIo() {
-    return io   
- }
-
- module.exports.getSocketIo = getSocketIo
