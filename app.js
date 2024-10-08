@@ -47,7 +47,7 @@ const server = app.listen(PORT,() => {
 })
 
 const io = new Server(server,{
-    cors : "http://localhost:3000"
+    cors : ["https://food-management-frontend.vercel.app/","https://food-management-frontend-admin.vercel.app/"]
 });
 const jwt = require("jsonwebtoken");
 const {promisify} = require("util");
