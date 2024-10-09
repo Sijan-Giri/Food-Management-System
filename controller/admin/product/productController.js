@@ -22,7 +22,7 @@ exports.createProduct = async(req,res) => {
         productPrice,
         productStatus,
         productQuantity,
-        productImage : "http://localhost:2000/" + filePath
+        productImage : "https://food-management-system-backend.onrender.com/" + filePath
     })
     res.status(200).json({
         message : "Product created sucessfully",
