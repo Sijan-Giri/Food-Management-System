@@ -43,9 +43,7 @@ exports.loginUser = async (req,res) => {
         })
     }
     const isMatched = bcrypt.compareSync(password,userFound[0].userPassword)
-    const token = jwt.sign({id : userFound[0]._id},process.env.SECRET_KEY,{
-        expiresIn : '30d'
-    })
+    const token = jwt.sign({id : userFound[0]._id},process.env.SECRET_KEY)
     if(isMatched) {
         res.status(200).json({
             message : "You are logged in successfully",
