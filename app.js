@@ -11,7 +11,7 @@ const orderRoute = require("./routes/orderRoute");
 const adminOrderRoute = require("./routes/adminOrderRoute");
 const paymentRoute = require("./routes/paymentRoute");
 const dataServiceRoute = require("./routes/dataServiceRoute")
-const schedule = require("node-schedule")
+const schedule = require('node-schedule');
 
 const {Server} = require("socket.io");
 const cors = require("cors")
@@ -53,8 +53,6 @@ const io = new Server(server,{
 const jwt = require("jsonwebtoken");
 const {promisify} = require("util");
 const User = require('./model/userModel');
-
-const schedule = require('node-schedule');
 
 const job = schedule.scheduleJob('10 * * * *',async function(){
   await User.find()
