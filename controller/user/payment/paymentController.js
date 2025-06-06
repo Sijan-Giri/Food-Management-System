@@ -21,7 +21,7 @@ exports.initiateKhaltiPayment = async (req,res) => {
         })
     }
     const data = {
-        return_url : "http://localhost:5173/success",
+        return_url : "https://food-management-frontend.vercel.app/success",
         purchase_order_id : orderId,
         amount : amount,
         website_url : "http://localhost:2000/",
